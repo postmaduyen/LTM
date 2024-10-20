@@ -1,6 +1,4 @@
-# Caro Game Server
-Introduce, Demo: https://youtu.be/ZLfz010cOX8 <br />
-Client source: https://github.com/Duc-ju/caro-game-client
+# Thử thách trí nhớ Game Server
 
 ## Run Step
 
@@ -19,21 +17,11 @@ CREATE TABLE `user`(
     IsOnline int DEFAULT 0,
     IsPlaying int DEFAULT 0
 );
-CREATE TABLE friend(
-    ID_User1 int NOT NULL,
-    ID_User2 int NOT NULL,
-    FOREIGN KEY (ID_User1) REFERENCES `user`(ID),
-    FOREIGN KEY (ID_User2) REFERENCES `user`(ID),
-    CONSTRAINT PK_friend PRIMARY KEY (ID_User1,ID_User2)
-);
-CREATE TABLE BANNED_USER(
-    ID_User int PRIMARY KEY NOT NULL,
-    FOREIGN KEY (ID_User) REFERENCES `user`(ID)
-);
+
 ```
 Change your database information to DAO.java
 ```
-final String DATABASE_NAME = "caronhom5"; // TODO FILL YOUR DATABASE NAME
+final String DATABASE_NAME = ""; // TODO FILL YOUR DATABASE NAME
 ...
 final String JDBC_USER = "root";  // TODO FILL YOUR DATABASE USER
 final String JDBC_PASSWORD = ""; // TODO FILL YOUR DATABASE PASSWORD
