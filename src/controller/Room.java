@@ -106,6 +106,13 @@ public class Room {
         userDAO.decreaseGame(user1.getUser().getID());
         userDAO.decreaseGame(user2.getUser().getID());
     }
+    public void endGameAndCloseRoom() {
+        setUsersToNotPlaying(); // Cập nhật trạng thái không chơi cho người chơi
+        decreaseNumberOfGame(); // Giảm số lượng trò chơi đang chạy
+        user1.room = null; // Đặt lại phòng của người chơi 1
+        user2.room = null; // Đặt lại phòng của người chơi 2
+        boardCast("left-room"); // Gửi thông báo tới cả hai người để thoát khỏi phòng
+}
 
 
 }

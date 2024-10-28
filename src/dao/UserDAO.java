@@ -254,6 +254,7 @@ public class UserDAO extends DAO {
         }
     }
 
+
     public int getNumberOfGame(int ID) {
         try {
             PreparedStatement preparedStatement = con.prepareStatement("SELECT user.NumberOfGame\n"
@@ -283,7 +284,7 @@ public class UserDAO extends DAO {
             ex.printStackTrace();
         }
     }
-
+    
     public void decreaseGame(int ID) {
         try {
             PreparedStatement preparedStatement = con.prepareStatement("UPDATE user\n"

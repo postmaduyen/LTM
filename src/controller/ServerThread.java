@@ -23,7 +23,7 @@ public class ServerThread implements Runnable {
     private BufferedReader is;
     private BufferedWriter os;
     private boolean isClosed;
-    private Room room;
+    Room room;
     private final UserDAO userDAO;
     private final String clientIP;
 
@@ -285,10 +285,12 @@ public class ServerThread implements Runnable {
                     room.getCompetitor(clientNumber).write(message);
                 }
                 if (messageSplit[0].equals("win")) {
-                    userDAO.addWinGame(this.user.getID());
+                    userDAO.addWinGame(this.user.getID());  // Cập nhật dữ liệu thắng cho người chơi
                     room.increaseNumberOfGame();
-                    room.getCompetitor(clientNumber).write("caro," + messageSplit[1] + "," + messageSplit[2]);
-                    room.boardCast("new-game,");
+                    room.getCompetitor(clientNumber).write("left-room");  // Gửi thông báo cho đối thủ rời khỏi phòng
+                    write("left-room"); // Gửi thông báo cho người chơi thắng rời khỏi phòng
+                    room.setUsersToNotPlaying(); // Cập nhật trạng thái không chơi cho cả hai người
+                    this.room = null; // Xóa phòng khỏi thread
                 }
                 if (messageSplit[0].equals("lose")) {
                     userDAO.addWinGame(room.getCompetitor(clientNumber).user.getID());

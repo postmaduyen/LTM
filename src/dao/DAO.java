@@ -18,7 +18,7 @@ public class DAO {
         final String DATABASE_NAME = "db_game"; // TODO FILL YOUR DATABASE NAME
         final String jdbcURL = "jdbc:mysql://localhost:3306/" + DATABASE_NAME + "?useSSL=false";
         final String JDBC_USER = "root";  // TODO FILL YOUR DATABASE USER
-        final String JDBC_PASSWORD = "06072003"; // TODO FILL YOUR DATABASE PASSWORD
+        final String JDBC_PASSWORD = "123456"; // TODO FILL YOUR DATABASE PASSWORD
         try {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection(jdbcURL, JDBC_USER, JDBC_PASSWORD);
