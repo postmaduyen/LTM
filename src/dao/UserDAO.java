@@ -54,7 +54,33 @@ public class UserDAO extends DAO {
         }
         return null;
     }
-
+        public User getUserByID(int ID) {
+        try {
+            User user = null;
+            PreparedStatement preparedStatement = con.prepareStatement("SELECT *\n"
+                    + "FROM user\n"
+                    + "WHERE ID = ?\n"
+            );
+            preparedStatement.setInt(1, ID);
+            ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                return new User(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getInt(6),
+                        rs.getInt(7),
+                        rs.getInt(8),
+                        (rs.getInt(9) != 0),
+                        (rs.getInt(10) != 0),
+                        getRank(rs.getInt(1)));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     // thêm một user mới
     public void addUser(User user) {
         try {

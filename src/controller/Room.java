@@ -113,6 +113,4 @@ public class Room {
         user2.room = null; // Đặt lại phòng của người chơi 2
         boardCast("left-room"); // Gửi thông báo tới cả hai người để thoát khỏi phòng
 }
-
-
 }

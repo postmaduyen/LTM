@@ -286,36 +286,31 @@ public class ServerThread implements Runnable {
                 }
                 if (messageSplit[0].equals("win")) {
                     userDAO.addWinGame(this.user.getID());  // Cập nhật dữ liệu thắng cho người chơi
-                    room.increaseNumberOfGame();
-                    room.getCompetitor(clientNumber).write("left-room");  // Gửi thông báo cho đối thủ rời khỏi phòng
-                    write("left-room"); // Gửi thông báo cho người chơi thắng rời khỏi phòng
+                    room.getCompetitor(clientNumber).write("game-end");  // Gửi thông báo cho đối thủ rời khỏi phòng
+                    
+                    write("game-end"); // Gửi thông báo cho người chơi thắng rời khỏi phòng
+                    User updatedUser = userDAO.getUserByID(this.user.getID());
+                    User updatedUser2 = userDAO.getUserByID(room.getCompetitorID(clientNumber));
+                    room.getCompetitor(clientNumber).write("update-home," + getStringFromUser(updatedUser2));
+                    write("update-home," + getStringFromUser(updatedUser));
                     room.setUsersToNotPlaying(); // Cập nhật trạng thái không chơi cho cả hai người
                     this.room = null; // Xóa phòng khỏi thread
+                    
+    
+                    // Gửi thông báo cập nhật trang chủ với dữ liệu người dùng mới
+                     // Gửi dữ liệu đã cập nhật để làm mới trang chủ
+                    
                 }
                 if (messageSplit[0].equals("lose")) {
                     userDAO.addWinGame(room.getCompetitor(clientNumber).user.getID());
-                    room.increaseNumberOfGame();
                     room.getCompetitor(clientNumber).write("competitor-time-out");
                     write("new-game,");
                 }
-                if (messageSplit[0].equals("draw-request")) {
-                    room.getCompetitor(clientNumber).write(message);
-                }
-                if (messageSplit[0].equals("draw-confirm")) {
-                    room.increaseNumberOfDraw();
-                    room.increaseNumberOfGame();
-                    room.boardCast("draw-game,");
-                }
-                if (messageSplit[0].equals("draw-refuse")) {
-                    room.getCompetitor(clientNumber).write("draw-refuse,");
-                }
-                if (messageSplit[0].equals("voice-message")) {
-                    room.getCompetitor(clientNumber).write(message);
-                }
+
                 if (messageSplit[0].equals("left-room")) {
                     if (room != null) {
                         room.setUsersToNotPlaying();
-                        room.decreaseNumberOfGame();
+                       // room.decreaseNumberOfGame();
                         room.getCompetitor(clientNumber).write("left-room,");
                         room.getCompetitor(clientNumber).room = null;
                         this.room = null;
@@ -339,8 +334,8 @@ public class ServerThread implements Runnable {
             if (room != null) {
                 try {
                     if (room.getCompetitor(clientNumber) != null) {
-                        room.decreaseNumberOfGame();
-                        room.getCompetitor(clientNumber).write("left-room,");
+                        //room.decreaseNumberOfGame();
+                        room.getCompetitor(clientNumber).write("exit-game");
                         room.getCompetitor(clientNumber).room = null;
                     }
                     this.room = null;
